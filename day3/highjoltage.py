@@ -14,8 +14,8 @@ if __name__ == '__main__':
             num = str(num)
             if bank.count(num[0]):
                 tens_loc = bank.index(num[0])
-                if bank.count(num[1],tens_loc):
-                    if bank.index(num[0]) < bank.index(num[1],tens_loc):
+                if bank.count(num[1],tens_loc+1):
+                    if bank.index(num[0]) < bank.index(num[1],tens_loc+1):
                         joltage += int(num)
                         print(bank, num)
                         break
