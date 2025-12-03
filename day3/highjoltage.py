@@ -1,21 +1,23 @@
 def get_local_maxima(num):
-        maxima = []
-        for i in range(len(num)):
-            if i == 0:
-                left = '0'
-            else:
-                left = num[i-1]
-            if i == len(num)-1:
-                right = '0'
-            else:
-                right = num[i+1]
-            if left < num[i] and num[i] > right:
+    maxima = []
+    for i in range(len(num)):
+        if i == 0:
+            left = '1'
+        else:
+            left = num[i-1]
+        if i == len(num)-1:
+            right = '1'
+        else:
+            right = num[i+1]
+        if left <= num[i] and num[i] >= right:
+            if right != num[i]:
                 maxima.append(i)
-        return maxima
+    return maxima    
+        
 
 if __name__ == '__main__':
     with open('testcase') as f:
-        lines = f.readlines()
+        lines = list(map(str.strip, f.readlines()))
 
     joltage = 0
 
@@ -36,5 +38,14 @@ if __name__ == '__main__':
     print(joltage)
 
     for bank in lines:
-        while len(bank) > 12:
-            maxima = get_local_maxima(bank)
+        print(get_local_maxima(bank))
+
+        # while len(bank) > 12:
+        #     maxima = get_local_maxima(bank)
+        #     left, right = 0, len(bank)
+        #     if maxima[0] > 0:
+        #         right = maxima[0]
+        #     elif len(maxima) > 1:
+
+        #     for i in range(10):
+                
