@@ -24,8 +24,6 @@ if __name__ == '__main__':
     for bank in lines:
         found = False
         for num in range(99,10,-1):
-            # if found:
-            #     break
             if num % 10 == 0:
                 continue
             num = str(num)
