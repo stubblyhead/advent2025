@@ -39,6 +39,7 @@ if __name__ == '__main__':
 
     joltage = 0
     for bank in lines:
+<<<<<<< HEAD
         for i in range(1,10):
             while bank.count(str(i)):
                 if len(bank) == 12:
@@ -50,3 +51,36 @@ if __name__ == '__main__':
         joltage += int(bank)
 
     print(joltage)
+=======
+        print(bank)
+        while len(bank) > 12:
+            found = False
+            maxima = get_local_maxima(bank)
+            if maxima == [0]:
+                left = 0
+                right = len(bank)
+            elif maxima[0] == 0:
+                left = 0
+                right = maxima[1]+1
+            elif bank[:maxima[0]+1] == bank[0]*(maxima[0]+1):
+                left = maxima[0]
+                right = maxima[1]
+            else:
+                left = 0
+                right = maxima[0]
+            for num in range(1,10):
+                num = str(num)
+                if bank.count(num,left,right):
+                    low_num = bank.index(num,left,right)
+                    bank = bank[0:low_num] + bank[low_num+1:]
+                    found = True
+                    break
+            if found:
+                continue
+
+        
+        joltage += int(bank)
+
+    print(joltage)
+        
+>>>>>>> wtf
