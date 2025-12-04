@@ -39,19 +39,6 @@ if __name__ == '__main__':
 
     joltage = 0
     for bank in lines:
-<<<<<<< HEAD
-        for i in range(1,10):
-            while bank.count(str(i)):
-                if len(bank) == 12:
-                    break
-                low_num = bank.index(str(i))
-                bank = bank[0:low_num] + bank[low_num+1:len(bank)]
-                
-        print(bank)
-        joltage += int(bank)
-
-    print(joltage)
-=======
         print(bank)
         while len(bank) > 12:
             found = False
@@ -83,4 +70,3 @@ if __name__ == '__main__':
 
     print(joltage)
         
->>>>>>> wtf
