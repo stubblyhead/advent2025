@@ -1,24 +1,12 @@
-def get_local_maxima(num):
-    maxima = []
-    for i in range(len(num)):
-        if i == 0:
-            left = '1'
-        else:
-            left = num[i-1]
-        if i == len(num)-1:
-            right = '1'
-        else:
-            right = num[i+1]
-        if left <= num[i] and num[i] >= right:
-            # if i == 0 and num[0] == num[1]:
-            #     maxima.append(i)
-            if right != num[i]:
-                maxima.append(i)
-    return maxima    
+def get_split(numstr, length):
+    strlen = len(numstr)
+    left = numstr[:strlen-length+1]
+    right = numstr[strlen-length+1:]
+    return(left,right)
         
 
 if __name__ == '__main__':
-    with open('input') as f:
+    with open('testcase') as f:
         lines = list(map(str.strip, f.readlines()))
 
     joltage = 0
@@ -39,34 +27,23 @@ if __name__ == '__main__':
 
     joltage = 0
     for bank in lines:
-        print(bank)
-        while len(bank) > 12:
-            found = False
-            maxima = get_local_maxima(bank)
-            if maxima == [0]:
-                left = 0
-                right = len(bank)
-            elif maxima[0] == 0:
-                left = 0
-                right = maxima[1]+1
-            elif bank[:maxima[0]+1] == bank[0]*(maxima[0]+1):
-                left = maxima[0]
-                right = maxima[1]
-            else:
-                left = 0
-                right = maxima[0]
-            for num in range(1,10):
-                num = str(num)
-                if bank.count(num,left,right):
-                    low_num = bank.index(num,left,right)
-                    bank = bank[0:low_num] + bank[low_num+1:]
-                    found = True
+        found_biggest = False
+        biggest_battery = ''
+        for i in range(11,0,-1):
+            if found_biggest:
+                break
+            left,right = get_split(bank, i)
+            for i in range(9,0,-1):
+                if left.count(str(i)):
+                    biggest_battery += str(i)
                     break
-            if found:
-                continue
-
+            bank = left[left.index(str(i))+1:] + right
+            if len(biggest_battery) + len(bank) == 12:
+                biggest_battery += bank
+                found_biggest = True
+        print(biggest_battery)
         
-        joltage += int(bank)
+        joltage += int(biggest_battery)
 
     print(joltage)
         
