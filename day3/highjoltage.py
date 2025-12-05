@@ -38,22 +38,30 @@ if __name__ == '__main__':
     for bank in lines:
         found_biggest = False
         biggest_battery = ''
-        for i in range(11,0,-1):
+        for i in range(11,-1,-1):
             if found_biggest:
                 break
             left,right = get_split(bank, i)
-            # if left == '':
-            #     biggest_battery += right
-            #     found_biggest = True
-            #     break
+            if left == '':
+                print('hi')
+                right = list(right)
+                right.sort()
+                right.reverse()
+                print(left,right)
+                biggest_battery += ''.join(right)
+                found_biggest = True
+                break
             for i in range(9,0,-1):
                 if left.count(str(i)):
                     biggest_battery += str(i)
                     break
-            
+            if len(biggest_battery) == 12:
+                found_biggest = True
+                break
             bank = left[left.index(str(i))+1:] + right
             if len(biggest_battery) + len(bank) == 12:
                 biggest_battery += bank
+                # print(biggest_battery, bank)
                 found_biggest = True
                 break
         print(biggest_battery)
