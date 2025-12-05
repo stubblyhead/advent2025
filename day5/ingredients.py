@@ -33,10 +33,10 @@ if __name__ == '__main__':
             consolidated_ranges.append(this_range)
             break
         if this_range[1] + 1 >= ranges[0][0]:
-            ranges[0] = (this_range[0],ranges[0][1])
+            ranges[0] = (this_range[0],max(ranges[0][1],this_range[1]))
         else:
             consolidated_ranges.append(this_range)
-
+            
     possible_fresh = 0
     for c in consolidated_ranges:
         possible_fresh += len(range(c[0],c[1]+1))
