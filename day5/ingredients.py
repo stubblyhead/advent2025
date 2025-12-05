@@ -22,3 +22,10 @@ if __name__ == '__main__':
                 break
 
     print(fresh_count)
+
+    possible_fresh_count = 0
+    for r in ranges:
+        this_range = range(r[0],r[1])
+        possible_fresh_count += len(this_range)
+
+    print(possible_fresh_count)
