@@ -23,9 +23,24 @@ if __name__ == '__main__':
 
     print(fresh_count)
 
-    possible_fresh_count = 0
-    for r in ranges:
-        this_range = range(r[0],r[1])
-        possible_fresh_count += len(this_range)
+    ranges = sorted(ranges)
+    
+    consolidated_ranges = []
 
-    print(possible_fresh_count)
+    while ranges:
+        this_range = ranges.pop(0)
+        if not ranges:
+            consolidated_ranges.append(this_range)
+            break
+        if this_range[1] + 1 >= ranges[0][0]:
+            ranges[0] = (this_range[0],ranges[0][1])
+        else:
+            consolidated_ranges.append(this_range)
+
+    possible_fresh = 0
+    for c in consolidated_ranges:
+        possible_fresh += len(range(c[0],c[1]+1))
+
+    print(possible_fresh)
+
+        
