@@ -1,12 +1,12 @@
 def get_split(numstr, length):
     strlen = len(numstr)
-    left = numstr[:strlen-length+1]
-    right = numstr[strlen-length+1:]
+    left = numstr[:strlen-length]
+    right = numstr[strlen-length:]
     return(left,right)
         
 
 if __name__ == '__main__':
-    with open('testcase') as f:
+    with open('input') as f:
         lines = list(map(str.strip, f.readlines()))
 
     joltage = 0
@@ -26,6 +26,15 @@ if __name__ == '__main__':
     print(joltage)
 
     joltage = 0
+
+    # select 12 numbers from 15 numbers--the first number must be no later than the
+    # 4th number, or else there won't be enough numbers left.  
+    #  1           2-12
+    # xxxx  |  xxxxxxxxxxx
+    # so keep (numbers needed - 1) in reserve, and keep the left most highest digit 
+    # from the front part.  discard all numbers before that number, and append the
+    # rest of the left side with the right side.  Repeat.  
+
     for bank in lines:
         found_biggest = False
         biggest_battery = ''
@@ -33,14 +42,16 @@ if __name__ == '__main__':
             if found_biggest:
                 break
             left,right = get_split(bank, i)
+            # if left == '':
+            #     biggest_battery += right
+            #     found_biggest = True
+            #     break
             for i in range(9,0,-1):
                 if left.count(str(i)):
                     biggest_battery += str(i)
                     break
+            
             bank = left[left.index(str(i))+1:] + right
-            if len(biggest_battery) + len(bank) == 12:
-                biggest_battery += bank
-                found_biggest = True
         print(biggest_battery)
         
         joltage += int(biggest_battery)
