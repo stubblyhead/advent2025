@@ -52,6 +52,10 @@ if __name__ == '__main__':
                     break
             
             bank = left[left.index(str(i))+1:] + right
+            if len(biggest_battery) + len(bank) == 12:
+                biggest_battery += bank
+                found_biggest = True
+                break
         print(biggest_battery)
         
         joltage += int(biggest_battery)
