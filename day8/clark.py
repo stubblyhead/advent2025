@@ -43,3 +43,43 @@ if __name__ == '__main__':
     distances.sort()
 
     print(len(distances))
+
+    for _ in range(1000):
+        this_dist = distances.pop(0)
+        box_a, box_b = this_dist[1]
+        connect = []
+        while len(connect) != 2:
+            for i in range(len(circuits)):
+                if box_a in circuits[i]:
+                    connect.append(i)
+                if box_b in circuits[i]:
+                    connect.append(i)
+            if connect[0] == connect[1]:
+                break
+            new_curcuit = circuits[connect[0]] + circuits[connect[1]]
+            circuits = circuits[0:connect[0]] + circuits[connect[0]+1:connect[1]] + circuits[connect[1]+1:] + [new_curcuit]
+    circuits.sort(key=len, reverse=True)
+    prod = 1
+    for i in range(3):
+        prod *= len(circuits[i])
+
+    print(prod)
+
+    while distances:
+        this_dist = distances.pop(0)
+        box_a, box_b = this_dist[1]
+        connect = []
+        while len(connect) != 2:
+            for i in range(len(circuits)):
+                if box_a in circuits[i]:
+                    connect.append(i)
+                if box_b in circuits[i]:
+                    connect.append(i)
+            if connect[0] == connect[1]:
+                break
+            new_curcuit = circuits[connect[0]] + circuits[connect[1]]
+            circuits = circuits[0:connect[0]] + circuits[connect[0]+1:connect[1]] + circuits[connect[1]+1:] + [new_curcuit]
+        if len(circuits) == 1:
+            break
+    print(box_a.x * box_b.x)
+
