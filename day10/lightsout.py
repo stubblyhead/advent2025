@@ -113,7 +113,7 @@ if __name__ == '__main__':
             if tuple(cur_state) == j:
                 found == True
                 break
-            memo[(press,)] = cur_state
+            memo[(press,)] = tuple(cur_state)
         while not found:
             presses += 1
             for comb in cwr([i for i in range(len(b))], r=presses):
@@ -124,5 +124,5 @@ if __name__ == '__main__':
                     found == True
                     break
 
-                memo[comb] = cur_state
+                memo[(comb)] = tuple(cur_state)
         total_presses += presses
