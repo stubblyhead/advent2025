@@ -59,7 +59,7 @@ class LightArray:
 
 
 if __name__ == '__main__':
-    with open('input') as f:
+    with open('testcase') as f:
         lines = f.readlines()
 
     targets = []
@@ -98,5 +98,31 @@ if __name__ == '__main__':
 
     print(total_presses)
 
-    
+    total_presses = 0
+    for i in range(len(lines)):
+        j = tuple(map(int, joltages[0][1:-1].split(',')))
+        b = buttons[0].split()
+        memo = {}
+        presses = 1
+        found = False
+        # populate memoization
+        for press in range(len(b)):
+            cur_state = [ 0 for _ in range(len(j)) ]
+            for toggle in map(int,b[press][1:-1].split(',')):
+                cur_state[toggle] += 1
+            if tuple(cur_state) == j:
+                found == True
+                break
+            memo[(press,)] = cur_state
+        while not found:
+            presses += 1
+            for comb in cwr([i for i in range(len(b))], r=presses):
+                cur_state = list(memo[comb[:-1]])
+                for toggle in map(int,b[comb[-1]][1:-1].split(',')):
+                    cur_state[toggle] += 1
+                if tuple(cur_state) == j:
+                    found == True
+                    break
 
+                memo[comb] = cur_state
+        total_presses += presses
