@@ -26,7 +26,7 @@ def traverse(tree, start):
 
 if __name__ == '__main__':
 
-    with open('testcase') as f:
+    with open('input') as f:
         lines = f.readlines()
 
     nodestmp = {}
