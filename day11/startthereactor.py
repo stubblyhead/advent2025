@@ -43,6 +43,7 @@ def get_routes_between_two_nodes(tree, start, end):
         for child in tree[start].get_children():
             count += get_routes_between_two_nodes(tree, child, end)
     else:
+        print('reached "out"')
         return 0
     
     return count
@@ -128,37 +129,32 @@ if __name__ == '__main__':
     if len(dac_children) > len(fft_children) and len(dac_ancestors) < len(fft_ancestors):
         # dac is higher in tree than fft
 
-        pass
+        svr_to_dac = get_routes_between_two_nodes(nodes, 'svr', 'dac')
+        dac_to_fft = get_routes_between_two_nodes(nodes, 'dac', 'fft')
+        fft_to_out = get_routes_between_two_nodes(nodes, 'fft', 'out')
+        print(svr_to_dac*dac_to_fft*fft_to_out)
 
     else:
         # fft is higher
-        nodes_to_remove = []
-        for node in nodes.keys():
-            if (node in fft_children and \
-                (node in dac_ancestors or node in dac_children)) \
-                or \
-                (node in dac_ancestors) and \
-                (node in fft_ancestors or node in fft_children):
-                continue
-            else:
-                nodes_to_remove.append(node)
-        for node in nodes_to_remove:
-            nodes.pop(node)
+        svr_to_fft = get_routes_between_two_nodes(nodes, 'svr', 'fft')
+        fft_to_dac = get_routes_between_two_nodes(nodes, 'fft', 'dac')
+        dac_to_out = get_routes_between_two_nodes(nodes, 'dac', 'out')
+        print(svr_to_fft*fft_to_dac*dac_to_out)
 
-    for nodeobj in nodes.values():
-        parents_to_remove = []
-        for p in nodeobj.get_parents():
-            if p not in nodes.keys():
-                parents_to_remove.append(p)
-        for p in parents_to_remove:
-            nodeobj.parents.remove(p)
-        children_to_remove = []
-        for c in nodeobj.get_children():
-            if c not in nodes.keys():
-                children_to_remove.append(c)
-        for c in children_to_remove:
-            nodeobj.children.remove(c)
+    # for nodeobj in nodes.values():
+    #     parents_to_remove = []
+    #     for p in nodeobj.get_parents():
+    #         if p not in nodes.keys():
+    #             parents_to_remove.append(p)
+    #     for p in parents_to_remove:
+    #         nodeobj.parents.remove(p)
+    #     children_to_remove = []
+    #     for c in nodeobj.get_children():
+    #         if c not in nodes.keys():
+    #             children_to_remove.append(c)
+    #     for c in children_to_remove:
+    #         nodeobj.children.remove(c)
 
-    # I think after this all routes must go through dac and fft
+    # # I think after this all routes must go through dac and fft
 
-    print(traverse(nodes,'svr'))
+    # print(traverse(nodes,'svr'))
