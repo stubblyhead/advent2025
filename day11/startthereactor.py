@@ -75,17 +75,17 @@ def get_all_ancestors(tree, start, ancestors):
     return ancestors
 
 def build_tree(nodes):
-    out = {}
+    result = {}
     for n in nodes.keys():
-        out[n] = Node(n)
-    out['out'] = Node(out)
+        result[n] = Node(n)
+    result['out'] = Node('out')
     
     for k,v in nodes.items():
         for c in v:
-            out[k].add_child(c)
-            out[c].add_parent(k)
+            result[k].add_child(c)
+            result[c].add_parent(k)
 
-    return out
+    return result
 
 def parse_lines(lines):
     out = {}
@@ -106,10 +106,10 @@ if __name__ == '__main__':
 
     print(get_routes_between_two_nodes(nodes, 'you', 'out'))
 
-    # with open('testcase2') as f:
-    #     lines_part2 = f.readlines()
+    with open('testcase2') as f:
+        lines_part2 = f.readlines()
 
-    lines_part2 = list(lines)
+    # lines_part2 = list(lines)
 
     nodestmp = parse_lines(lines_part2)
     nodes = build_tree(nodestmp)
