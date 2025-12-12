@@ -43,10 +43,26 @@ def get_routes_between_two_nodes(tree, start, end):
         for child in tree[start].get_children():
             count += get_routes_between_two_nodes(tree, child, end)
     else:
-        print('reached "out"')
+        # print('reached "out"')
         return 0
     
     return count
+
+def cheese_route(tree,start,end,end_children):
+    count = 0
+    if start == end:
+        return 1
+    elif start in end_children:
+        return 0
+    elif tree[start].get_children():
+        for child in tree[start].get_children():
+            count += get_routes_between_two_nodes(tree, child, end)
+    else:
+        # print('reached "out"')
+        return 0
+    
+    return count    
+
 
 def get_all_descendents(tree, start, descendents):
     if start in descendents:
@@ -106,10 +122,10 @@ if __name__ == '__main__':
 
     print(get_routes_between_two_nodes(nodes, 'you', 'out'))
 
-    with open('testcase2') as f:
-        lines_part2 = f.readlines()
+    # with open('testcase2') as f:
+    #     lines_part2 = f.readlines()
 
-    # lines_part2 = list(lines)
+    lines_part2 = list(lines)
 
     nodestmp = parse_lines(lines_part2)
     nodes = build_tree(nodestmp)
@@ -136,9 +152,14 @@ if __name__ == '__main__':
 
     else:
         # fft is higher
-        svr_to_fft = get_routes_between_two_nodes(nodes, 'svr', 'fft')
-        fft_to_dac = get_routes_between_two_nodes(nodes, 'fft', 'dac')
         dac_to_out = get_routes_between_two_nodes(nodes, 'dac', 'out')
+        print(dac_to_out)
+        # fft_to_dac = get_routes_between_two_nodes(nodes, 'fft', 'dac')
+        fft_to_dac = cheese_route(nodes, 'fft','dac',dac_children)
+        print(fft_to_dac)
+        svr_to_fft = get_routes_between_two_nodes(nodes, 'svr', 'fft')
+        print(svr_to_fft)
+        
         print(svr_to_fft*fft_to_dac*dac_to_out)
 
     # for nodeobj in nodes.values():
