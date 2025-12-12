@@ -35,6 +35,18 @@ def traverse(tree, start):
     
     return count
 
+def get_routes_between_two_nodes(tree, start, end):
+    count = 0
+    if start == end:
+        return 1
+    elif tree[start].get_children():
+        for child in tree[start].get_children():
+            count += get_routes_between_two_nodes(tree, child, end)
+    else:
+        return 0
+    
+    return count
+
 def get_all_descendents(tree, start, descendents):
     if start in descendents:
         return
@@ -91,7 +103,7 @@ if __name__ == '__main__':
     nodestmp = parse_lines(lines)
     nodes = build_tree(nodestmp)
 
-    print(traverse(nodes, 'you'))
+    print(get_routes_between_two_nodes(nodes, 'you', 'out'))
 
     # with open('testcase2') as f:
     #     lines_part2 = f.readlines()
@@ -107,21 +119,16 @@ if __name__ == '__main__':
     dac_ancestors = get_all_ancestors(nodes, 'dac', [])
     fft_ancestors = get_all_ancestors(nodes, 'fft', [])
 
+    # new approach -- if paths must go from svr to out through dac and fft,
+    # then they must go from svr to the higher node in [dac, fft], from there
+    # to the lower node in [dac, fft] and finally to out.  we can construct the
+    # number of routes piecemeal by finding the count of each subroute and
+    # multiplying together.
+
     if len(dac_children) > len(fft_children) and len(dac_ancestors) < len(fft_ancestors):
         # dac is higher in tree than fft
 
-        nodes_to_remove = []
-        for node in nodes.keys():
-            if (node in dac_children and \
-                (node in fft_ancestors or node in fft_children)) \
-                or \
-                (node in fft_ancestors) and \
-                (node in dac_ancestors or node in dac_children):
-                continue
-            else:
-                nodes_to_remove.append(node)
-        for node in nodes_to_remove:
-            nodes.pop(node)
+        pass
 
     else:
         # fft is higher
