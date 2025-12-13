@@ -22,6 +22,8 @@ class Node:
     def has_parent(self, parent):
         return parent in self.parents
     
+memo = {}
+    
 def traverse(tree, start):
     count = 0
     if start == 'out':
@@ -36,6 +38,8 @@ def traverse(tree, start):
     return count
 
 def get_routes_between_two_nodes(tree, start, end):
+    if (start,end) in memo.keys():
+        return memo[(start,end)]
     count = 0
     if start == end:
         return 1
@@ -45,7 +49,7 @@ def get_routes_between_two_nodes(tree, start, end):
     else:
         # print('reached "out"')
         return 0
-    
+    memo[start,end] = count
     return count
 
 def cheese_route(tree,start,end,end_children):
